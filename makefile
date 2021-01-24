@@ -1,5 +1,5 @@
 ImageSorter: ImageSorter.cpp ImageSorter.hpp
-	g++ $< -lboost_filesystem -lboost_system -o $@
+	g++ $< -lboost_filesystem -lboost_system -lexiv2 -o $@
 
 clean:
 	rm ImageSorter
