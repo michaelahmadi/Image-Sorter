@@ -8,7 +8,7 @@ void copyToFolder(const boost::filesystem::path filePath, boost::filesystem::pat
     // Sample Date 2019:08:18 14:34:39
     std::string year = fileDate.substr(0, 4);
     std::string month = fileDate.substr(5, 2);
-    
+
     sortPath += "/" + year;
     // If folder for the year not yet created, create that folder.
     if (!boost::filesystem::exists(sortPath))
@@ -65,28 +65,27 @@ void sortByDate(boost::filesystem::path p)
         image->readMetadata();
         Exiv2::ExifData &exifData = image->exifData();
 
-        if (exifData.empty())
+        if (!exifData.empty())
         {
-            std::cerr << "no metadata found in file " << x.path() << std::endl;
-            exit(2);
+            try
+            {
+                copyToFolder(x.path(), sortingFolder, exifData[key].toString(), i);
+                i++;
+                //std::cout << exifData[key].toString() << std::endl;
+            }
+            catch (Exiv2::AnyError &e)
+            {
+                std::cerr << "Caught Exiv2 exception '" << e << "'" << std::endl;
+                exit(3);
+            }
+            catch (...) // research
+            {
+                std::cerr << "Caught default exception" << std::endl;
+                exit(4);
+            }
         }
-
-        try
-        {
-            copyToFolder(x.path(), sortingFolder, exifData[key].toString(), i);
-            i++;
-            //std::cout << exifData[key].toString() << std::endl;
-        }
-        catch (Exiv2::AnyError &e)
-        {
-            std::cerr << "Caught Exiv2 exception '" << e << "'" << std::endl;
-            exit(3);
-        }
-        catch (...) // research
-        {
-            std::cerr << "Caught default exception" << std::endl;
-            exit(4);
-        }
+        else
+            std::cout << "no metadata found in file " << x.path() << std::endl;
     }
 }
 
