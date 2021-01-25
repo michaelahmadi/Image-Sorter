@@ -8,3 +8,8 @@ Boost Filesystem, Exiv2
     sudo apt-get install libboost-system-dev
     sudo apt-get install libexiv2-dev
 
+To Use:
+
+    make
+    ./ImageSorter [dir] [d]
+
