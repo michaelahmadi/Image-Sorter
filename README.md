@@ -11,5 +11,9 @@ Boost Filesystem, Exiv2
 To Use:
 
     make
-    ./ImageSorter [dir] [d]
+    ./ImageSorter [dir]
 
+Make sure [dir] contains only .JPG images. For best results, make sure all images have exif metadata.
+
+After running, a folder named "[dir] Sorting Folder" will be created in the same directory as [dir].
+Inside that folder will be folders by year and month to which the images in [dir] will be copied.
